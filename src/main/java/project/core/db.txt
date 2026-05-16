@@ -1,0 +1,7 @@
+s , Undergraduate , 1 , reem ashkar is the best , reem , cce , 2026
+s , Undergraduate , 2 , akram , reem ashkar is queen , cce , 2025
+
+c , 1 , course , instrucotr , 23
+
+e , 1 , 1 , 1 , 0.0 , 0.0
+e , 1 , 2 , 1 , 0.0 , 0.0
