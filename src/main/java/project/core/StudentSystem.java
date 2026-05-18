@@ -119,6 +119,22 @@ public class StudentSystem {
         }
     }
 
+    public void SortStudentsByName() {
+        this.students.sort(new StudentNameComperator());
+    }
+
+    public void SortStudentsByAverage() {
+        this.students.sort(new StudentAverageComperator());
+    }
+
+    public void SortCouresesByName() {
+        this.courses.sort(new CourseNameComparator());
+    }
+
+    public void SortCouresesByStudentCount() {
+        this.courses.sort(new CourseStudentCountComapartor());
+    }
+
     public ArrayList<Student> filterStudents(StudentFilter filter) {
 
         ArrayList<Student> result = new ArrayList<>();

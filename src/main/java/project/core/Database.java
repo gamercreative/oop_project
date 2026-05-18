@@ -209,6 +209,14 @@ public class Database implements Repo {
 
         for (EnrollmentsEntity ee : enrollments) {
 
+            if (ee.getStudent() == null) {
+                continue;
+            }
+
+            if (ee.getCourse() == null) {
+                continue;
+            }
+
             int studentId = ee.getStudent().getId();
             int courseId = ee.getCourse().getCourseId();
             double grade = ee.getGrade();

@@ -8,9 +8,9 @@ import java.util.Scanner;
 
 import project.core.Database;
 import project.core.FileManager;
+import project.core.Menu;
 import project.core.Report;
-import project.core.Utils;
-
+import project.core.Validation;
 /**
  *
  * @author akramseifeddine
@@ -26,12 +26,11 @@ public class MyProject {
         int choice;
         
         while (true) { 
-            Utils.PrintMainMenu();
-            choice = sc.nextInt();
-            sc.nextLine();
-
+            Menu.PrintMainMenu();
             
-            Utils.HandleMainMenu(report, sc, choice, db);
+            choice = Validation.GetIntInput(sc);
+            
+            Menu.HandleMainMenu(report, sc, choice, db);
             if (choice == 11) {
                 return;
             }

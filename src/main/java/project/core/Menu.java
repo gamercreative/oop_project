@@ -2,8 +2,7 @@ package project.core;
 
 import java.util.Scanner;
 
-public class Utils {
-    
+public class Menu {
     public static void PrintMainMenu() {
         System.out.println("""
             1. ADD STUDENT
@@ -28,6 +27,20 @@ public class Utils {
         """);
     }
 
+    public static void PrintSortStudentMenu() {
+        System.out.println("""
+                1. Sort Student by names
+                2. Sort Student by averages
+        """);
+    }
+
+    public static void PrintSortCoursesMenu() {
+        System.out.println("""
+                1. Sort Course by names
+                2. Sort Course by student count
+        """);
+    }
+
     public static ExchangeStudent FillExchangeStudent(Scanner sc) {
     	int studentId;  //added reem
         String fullName;
@@ -39,15 +52,14 @@ public class Utils {
         System.out.println("Fill Exchange Student Info");
      
         System.out.println("Enter student ID");
-        studentId = sc.nextInt();
-        
-        sc.nextLine();
+        studentId = Validation.GetIntInput(sc);
+
         
         System.out.println("Enter exchange Student full name");
         fullName = sc.nextLine();
 
         System.out.println("Enter exchange student email");
-        email = sc.nextLine();
+        email = Validation.GetEmail(sc);
         
         System.out.println("Enter exchange student major");
         major = sc.nextLine();
@@ -56,8 +68,7 @@ public class Utils {
         homeUniversity = sc.nextLine();
 
         System.out.println("Enter exchange student exchange period");
-        exchangePeriod = sc.nextInt();
-        sc.nextLine();
+        exchangePeriod = Validation.GetIntInput(sc);
 
         return new ExchangeStudent(studentId, fullName, email, major, homeUniversity, exchangePeriod);
     }
@@ -72,22 +83,19 @@ public class Utils {
         System.out.println("Fill Undergraduate Student Info");
         
         System.out.println("Enter student ID");
-        studentId = sc.nextInt();
-        
-        sc.nextLine();
+        studentId = Validation.GetIntInput(sc);
         
         System.out.println("Enter Undergraduate Student full name");
         fullName = sc.nextLine();
 
         System.out.println("Enter Undergraduate student email");
-        email = sc.nextLine();
+        email = Validation.GetEmail(sc);
         
         System.out.println("Enter Undergraduate student major");
         major = sc.nextLine();
 
         System.out.println("Enter Undergraduate university year");
-        yearLevel = sc.nextInt();
-        sc.nextLine();
+        yearLevel = Validation.GetIntInput(sc);
 
         return new UndergraduateStudent(studentId, fullName, email, major, yearLevel);
     }
@@ -103,15 +111,13 @@ public class Utils {
         System.out.println("Fill Graduate Student Info");
         
         System.out.println("Enter student ID");
-        studentId = sc.nextInt();
-        
-        sc.nextLine();
+        studentId = Validation.GetIntInput(sc);
         
         System.out.println("Enter graudate Student full name");
         fullName = sc.nextLine();
 
         System.out.println("Enter graudate student email");
-        email = sc.nextLine();
+        email = Validation.GetEmail(sc);
         
         System.out.println("Enter graudate student major");
         major = sc.nextLine();
@@ -134,11 +140,10 @@ public class Utils {
         System.out.println("Fill Course Info");
         
         System.out.println("Enter course ID");
-        courseId = sc.nextInt();
+        courseId = Validation.GetIntInput(sc);
         
         System.out.println("Enter course credits");
-        credits = sc.nextInt();
-        sc.nextLine();
+        credits = Validation.GetIntInput(sc);
 
         System.out.println("Enter course name");
         courseName = sc.nextLine();
@@ -154,11 +159,10 @@ public class Utils {
         int courseId;
 
         System.out.println("enter student id");
-        studentId = sc.nextInt();
+        studentId = Validation.GetIntInput(sc);
 
         System.out.println("enter course id");
-        courseId = sc.nextInt();
-        sc.nextLine();
+        courseId = Validation.GetIntInput(sc);
         
         report.EnrollStudent(studentId, courseId);
     }
@@ -169,14 +173,13 @@ public class Utils {
         double grade;
 
         System.out.println("enter student id");
-        studentId = sc.nextInt();
+        studentId = Validation.GetIntInput(sc);
 
         System.out.println("enter course id");
-        courseId = sc.nextInt();
+        courseId = Validation.GetIntInput(sc);
         
         System.out.println("enter course grade");
-        grade = sc.nextDouble();
-        sc.nextLine();
+        grade = Validation.GetDoubleInput(sc);
         
         report.UpdateGrade(studentId, courseId, grade);
     }
@@ -185,8 +188,7 @@ public class Utils {
         int choice;
         PrintAddStudentMenu();
         
-        choice = sc.nextInt();
-        sc.nextLine();
+        choice = Validation.GetIntInput(sc);
 
         switch (choice) {
             case 1:
@@ -201,6 +203,48 @@ public class Utils {
             default:
                 throw new AssertionError();
         }
+    }
+
+    public static void HandleStudentSort(Report report, Scanner sc) {
+        int choice;
+        PrintSortStudentMenu();
+
+        choice = Validation.GetIntInput(sc);
+
+        switch (choice) {
+            case 1:
+                report.SortStudentsByName();
+                break;
+
+            case 2:
+                report.SortStudentsByAverage();
+                break;
+
+            default:
+                break;
+        }
+        
+    }
+
+    public static void HandleCourseSort(Report report, Scanner sc) {
+        int choice;
+        PrintSortCoursesMenu();
+
+        choice = Validation.GetIntInput(sc);
+
+        switch (choice) {
+            case 1:
+                report.SortCouresesByName();
+                break;
+
+            case 2:
+                report.SortCouresesByStudentCount();
+                break;
+
+            default:
+                break;
+        }
+        
     }
 
     public static void HandleMainMenu(Report report, Scanner sc, int choice, Repo repo) {
@@ -230,10 +274,12 @@ public class Utils {
                 break;
 
             case 5:
+                HandleStudentSort(report, sc);
                 report.PrintStudents();
                 break;
 
             case 6:
+                HandleCourseSort(report, sc);
                 report.PrintCourses();
                 break;
 
@@ -256,11 +302,11 @@ public class Utils {
             case 11:
                 sc.close();
             	repo.Close();
-            	return;
+            	break;
                       
 
             default:
-                throw new AssertionError();
+                break;
         }
     }
 }

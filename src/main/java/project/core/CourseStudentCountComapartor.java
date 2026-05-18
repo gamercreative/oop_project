@@ -6,7 +6,7 @@ public class CourseStudentCountComapartor implements Comparator<Course> {
 
 	    @Override
 	    public int compare(Course c1, Course c2) {
-	        return Integer.compare(c1.getStudentCount(), c2.getStudentCount());
+	        return Integer.compare(c2.getStudentCount(), c1.getStudentCount());
 	    }
 	}
 

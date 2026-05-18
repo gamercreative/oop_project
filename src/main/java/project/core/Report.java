@@ -83,6 +83,24 @@ public class Report {
         return set;
     }
 
+    public void SortStudentsByName() {
+        // this.sys.SortStudents(new StudentNameComperator());
+        this.sys.SortStudentsByName();
+    }
+
+    public void SortStudentsByAverage() {
+        // this.sys.SortStudents(new StudentNameComperator());
+        this.sys.SortStudentsByAverage();
+    }
+
+    public void SortCouresesByName() {
+        this.sys.SortCouresesByName();
+    }
+
+    public void SortCouresesByStudentCount() {
+        this.sys.SortCouresesByStudentCount();
+    }
+
     public void PrintStudents() {
         this.sys.PrintStudents();
     }
