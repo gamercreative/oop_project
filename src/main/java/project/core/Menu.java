@@ -1,5 +1,6 @@
 package project.core;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Menu {
@@ -38,6 +39,23 @@ public class Menu {
         System.out.println("""
                 1. Sort Course by names
                 2. Sort Course by student count
+        """);
+    }
+
+    public static void PrintFilterMenu(){
+      System.out.println("""
+                1. Filter by Average
+                2. Filter by Major
+                3. Filter by Enrollment Size
+        """);
+    }
+
+    public static void PrintFilterOrSortMenu(){
+        System.out.println("""
+                1. Sort
+                2. Filter 
+                3. None
+            
         """);
     }
 
@@ -247,6 +265,96 @@ public class Menu {
         
     }
 
+    public static void HandleFilter(Report report , Scanner sc) {
+        StudentSystem sys = report.getSys();
+        int choice;
+        PrintFilterMenu();
+
+        choice = Validation.GetIntInput(sc);
+
+        switch (choice) {
+            case 1 :
+                FilterByAverage(report, sc);
+                break;
+
+            case 2:
+               FilterByMajor(report, sc);
+                break;
+
+            case 3:
+                FilterByEnrollments(report, sc);
+                break;
+
+            default:
+                break;
+        }   
+    }
+
+    public static void FilterByAverage(Report report, Scanner sc) {
+        StudentSystem sys = report.getSys();
+        Double avg;
+
+        System.out.println("Enter average to filter on");
+        avg = Validation.GetDoubleInput(sc);
+
+        ArrayList<Student> result = sys.filterStudents(s -> s.CalculateAverage()>= avg);
+
+        for(Student s : result) {
+            s.PrintStudentInfo();
+        }
+    }
+
+    public static void FilterByMajor( Report report, Scanner sc) {
+        StudentSystem sys = report.getSys();
+        String major;
+
+        System.out.println("Enter based of what major you need to filter");
+        major = sc.nextLine();
+
+        ArrayList<Student> result = sys.filterStudents(s -> s.getMajor().equalsIgnoreCase(major));
+
+        for(Student s : result) {
+            s.PrintStudentInfo();
+        }
+    }
+
+       public static void FilterByEnrollments(Report report, Scanner sc) {
+        StudentSystem sys = report.getSys();
+        int size;
+
+        System.out.println("Enter size of enrollments to filter on");
+        size = Validation.GetIntInput(sc);
+
+        ArrayList<Student> result = sys.filterStudents(s -> s.getEnrollmentCount()>=size);
+
+        for(Student s: result) {
+            s.PrintStudentInfo();
+        }
+    }
+
+     public static void HandleSortOrFilter(Report report, Scanner sc){
+        int choice;
+        PrintFilterOrSortMenu();
+
+        choice = Validation.GetIntInput(sc);
+
+        switch(choice){
+
+            case 1:
+               HandleStudentSort(report , sc);
+               report.PrintStudents();
+               break;
+
+            case 2:
+                HandleFilter(report, sc);
+                break;
+
+            case 3: 
+                report.PrintStudents();
+                break;
+        }
+    }
+
     public static void HandleMainMenu(Report report, Scanner sc, int choice, Repo repo) {
         StudentSystem sys = report.getSys();
 
@@ -274,13 +382,11 @@ public class Menu {
                 break;
 
             case 5:
-                HandleStudentSort(report, sc);
-                report.PrintStudents();
+                HandleSortOrFilter(report, sc);
                 break;
 
             case 6:
                 HandleCourseSort(report, sc);
-                report.PrintCourses();
                 break;
 
             case 7:
@@ -298,7 +404,8 @@ public class Menu {
             case 10: 
                 repo.SaveReport(sys);
                 break;
-           
+               
+
             case 11:
                 sc.close();
             	repo.Close();

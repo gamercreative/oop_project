@@ -59,7 +59,6 @@ public class Database implements Repo {
             
         }
         this.Commit();
-        
     }
 
     private void SaveEnrollments(ArrayList<Enrollment> enrollments) {
@@ -77,7 +76,6 @@ public class Database implements Repo {
             this.session.merge(el);
         }
         this.Commit();
-
     }
 
     private void SaveStudents(ArrayList<Student> students) {
@@ -85,6 +83,21 @@ public class Database implements Repo {
             if(s.getClass().getSimpleName().equals("UndergraduateStudent")) {   //“What class is this object REALLY from?”
                 UndergraduateStudent u = (UndergraduateStudent) s;
                 UndergraduateStudentEntity use = new UndergraduateStudentEntity();
+
+                if (u.getStudentId() != 0) {
+                    use = session.get(
+                        UndergraduateStudentEntity.class,
+                        u.getStudentId()
+                    );
+
+                    if (use == null) {
+                        use = new UndergraduateStudentEntity();
+                    }
+
+                } else {
+
+                    use = new UndergraduateStudentEntity();
+                }
 
                 use.setFullName(u.getFullName());
                 use.setEmail(u.getEmail());
@@ -98,6 +111,21 @@ public class Database implements Repo {
             else if(s.getClass().getSimpleName().equals("GraduateStudent")) {
                 GraduateStudent g = (GraduateStudent) s;
                 GraduateStudentEntity gs = new GraduateStudentEntity();
+
+                if (g.getStudentId() != 0) {
+                    gs = session.get(
+                        GraduateStudentEntity.class,
+                        g.getStudentId()
+                    );
+
+                    if (gs == null) {
+                        gs = new GraduateStudentEntity();
+                    }
+
+                } else {
+
+                    gs = new GraduateStudentEntity();
+                }
 
                 gs.setFullName(g.getFullName());
                 gs.setEmail(g.getEmail());
@@ -113,6 +141,21 @@ public class Database implements Repo {
                 ExchangeStudent x = (ExchangeStudent) s;
                 ExchangeStudentEntity xe = new ExchangeStudentEntity();
 
+                if (x.getStudentId() != 0) {
+                    xe = session.get(
+                        ExchangeStudentEntity.class,
+                        x.getStudentId()
+                    );
+
+                    if (xe == null) {
+                        xe = new ExchangeStudentEntity();
+                    }
+
+                } else {
+
+                    xe = new ExchangeStudentEntity();
+                }
+
                 xe.setFullName(x.getFullName());
                 xe.setEmail(x.getEmail());
                 xe.setMajor(x.getMajor());
@@ -124,7 +167,6 @@ public class Database implements Repo {
             }
         }
         this.Commit();
-
     }
 
     @Override

@@ -21,10 +21,24 @@ public class StudentSystem {
     }
 
     public void addStudent(Student s){
+        // for(Student student : this.students) {
+        //     if (student.getStudentId() == s.getStudentId()) {
+        //         this.students.remove(student);
+        //     }
+        // }
+        Student student = this.FindStudent(s.getStudentId());
+        this.students.remove(student);
         this.students.add(s);
     }
 
     public void addCourse(Course c){
+        // for(Course course : this.courses) {
+        //     if (course.getCourseId() == c.getCourseId()) {
+        //         this.courses.remove(course);
+        //     }
+        // }
+        Course course = this.FindCourse(c.getCourseId());
+        this.courses.remove(course);
         this.courses.add(c);
     }
 
@@ -87,6 +101,12 @@ public class StudentSystem {
     public void EnrollStudent(int studentId, int courseId) {
         Course c = this.FindCourse(courseId);
         Student s = this.FindStudent(studentId);
+
+        for (Enrollment e: this.enrollments) {
+            if (e.getCourseId() == courseId & e.getStudentId() == studentId) {
+                return;
+            }
+        }
 
         Enrollment e = new Enrollment(courseId, s, c, 0.0, 0.0);
         s.AddCourse(e);
