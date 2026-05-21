@@ -253,10 +253,12 @@ public class Menu {
         switch (choice) {
             case 1:
                 report.SortCouresesByName();
+                report.PrintCourses();
                 break;
 
             case 2:
                 report.SortCouresesByStudentCount();
+                report.PrintCourses();
                 break;
 
             default:

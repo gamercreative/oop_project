@@ -15,7 +15,6 @@ import project.entities.StudentEntity;
 import project.entities.UndergraduateStudentEntity;
 
 public class Database implements Repo {
-
     private Session session;
     private Transaction tx;
     /*
@@ -51,6 +50,22 @@ public class Database implements Repo {
         for (Course c : courses) {
             CourseEntity ce = new CourseEntity();
 
+            if (c.getCourseId() != 0) {
+                ce = session.get(
+                    CourseEntity.class,
+                    c.getCourseId()
+                );
+
+                if (ce == null) {
+                    ce = new CourseEntity();
+                }
+
+            } else {
+
+                ce = new CourseEntity();
+            }
+
+
             ce.setCredits(c.getCredits());
             ce.setCourseName(c.getName());
             ce.setInstructorName(c.getInstructorName());
@@ -63,18 +78,40 @@ public class Database implements Repo {
 
     private void SaveEnrollments(ArrayList<Enrollment> enrollments) {
         for (Enrollment e : enrollments) {
-            EnrollmentsEntity el = new EnrollmentsEntity();
 
-            StudentEntity student = this.session.get(StudentEntity.class, e.getStudentId());
-            CourseEntity course = this.session.get( CourseEntity.class, e.getCourseId());
+            StudentEntity student =
+                this.session.get(StudentEntity.class, e.getStudentId());
+
+            CourseEntity course =
+                this.session.get(CourseEntity.class, e.getCourseId());
+
+            // check if enrollment already exists
+            EnrollmentsEntity existing = this.session.createQuery(
+                """
+                FROM EnrollmentsEntity en
+                WHERE en.student.id = :sid
+                AND en.course.courseId = :cid
+                """,
+                EnrollmentsEntity.class
+            )
+            .setParameter("sid", e.getStudentId())
+            .setParameter("cid", e.getCourseId())
+            .uniqueResult();
+
+            if (existing != null) {
+                continue;
+            }
+
+            EnrollmentsEntity el = new EnrollmentsEntity();
 
             el.setAttendance(e.getAttendance());
             el.setCourse(course);
             el.setStudent(student);
             el.setGrade(e.getGrade());
 
-            this.session.merge(el);
+            this.session.persist(el);
         }
+
         this.Commit();
     }
 

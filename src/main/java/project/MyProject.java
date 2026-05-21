@@ -13,6 +13,7 @@ import project.core.Report;
 import project.core.Validation;
 /**
  *
+ * @author reemashkar
  * @author akramseifeddine
  */
 public class MyProject {
@@ -20,7 +21,7 @@ public class MyProject {
     public static void main(String[] args) {
         Report report = new Report();
         Scanner sc = new Scanner(System.in);
-        FileManager fm = new FileManager("/Users/akram/Documents/collage/oop/oop1/src/db.txt","/Users/akram/Documents/collage/oop/oop1/src/report.txt");
+        FileManager fm = new FileManager("/Users/akramseifeddine/Documents/collage/oop/myProject/src/main/java/project/core/db.txt","/Users/akramseifeddine/Documents/collage/oop/myProject/src/main/java/project/core/report.txt");
         Database db = new Database();
 
         int choice;

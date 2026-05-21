@@ -108,7 +108,7 @@ public class StudentSystem {
             }
         }
 
-        Enrollment e = new Enrollment(courseId, s, c, 0.0, 0.0);
+        Enrollment e = new Enrollment(0, s, c, 0.0, 0.0);
         s.AddCourse(e);
         c.AddStudent(s);
 
